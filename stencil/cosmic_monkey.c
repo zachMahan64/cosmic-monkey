@@ -32,7 +32,7 @@
  * \param size : The size of the data block in bytes.
  *
  * Returns:
- * \return int8_t : 0 upon success
+ * \return int32_t : 0 upon success
  */
 
 int32_t cosmic_monkey(void *data, size_t size) {
@@ -81,10 +81,10 @@ int32_t print_bytes(void *data, size_t size) {
  */
 int main(void) {
     // Example data for testing the Cosmic Monkey
-    unsigned char data[] = {0xFF, 0x00, 0xAA, 0x55};
+    unsigned char data[4] = {0xFF, 0x00, 0xAA, 0x55};
 
     // Print original data
-    system_call_perror(printf("Original data:\n"), "printf");
+    printf("Original data:\n");
     print_bytes(data, sizeof(data));
 
     // Seed random number generator
@@ -94,7 +94,7 @@ int main(void) {
     cosmic_monkey(data, sizeof(data));
 
     // Print mutated data
-    system_call_perror(printf("Mutated data:\n"), "printf");
+    printf("Mutated data:\n");
     print_bytes(data, sizeof(data));
 
     return 0;
