@@ -16,18 +16,15 @@
  * correspondance with the code pushed to the satellite.
  */
 
-// CHECK_FOR_ERRORS MACRO, currently assumes only bad code is -1 (works here)
-
-#ifdef DEBUG
-#define CHECK_FOR_ERRORS(exit_code, fn_name)                                   \
-  if (exit_code == -1) {                                                       \
-    exit_code |= printf(                                                       \
-        "[ERROR] in \"%s\", cosmic monkey ran into an issue, code: %d\n",      \
-        fn_name, exit_code);                                                   \
+// currently assumes only bad codes are negative (should work in this set up)
+// using "exit_code |=" will work
+int32_t check_for_system_error(int32_t code, const char *fn_name) {
+  if (code < 0) {
+    printf("[ERROR] in \"%s\", code: %d\n", fn_name, code);
+    return code;
   }
-#else
-#define CHECK_FOR_ERRORS(exit_code, fn_name)
-#endif
+  return 0;
+}
 
 /**
  * int32_t cosmic_monkey(void* data, size_t size)
@@ -49,7 +46,6 @@
  */
 
 int32_t cosmic_monkey(void *data, size_t size) {
-  // TODO :
   //  Implement the cosmic_monkey function, which should flip random bits in
   //  the input data block. Feel free to use the internet(and ChatGPT) to
   //  learn about the necessary operations.
@@ -81,7 +77,6 @@ int32_t cosmic_monkey(void *data, size_t size) {
  */
 
 int32_t print_bytes(void *data, size_t size) {
-  // TODO:
   //  Implement the print_bytes function to visualize the data in
   //  hexadecimal format before and after the mutation.
   // HINT: run `man 3 printf` in the terminal
@@ -90,10 +85,10 @@ int32_t print_bytes(void *data, size_t size) {
   }
   int exit_code = 0;
   for (size_t i = 0; i < size; i++) {
-    exit_code |= printf("%x ", ((uint8_t *)data)[i]);
+    exit_code |=
+        check_for_system_error(printf("%02x ", ((uint8_t *)data)[i]), "printf");
   }
-  exit_code |= printf("\n");
-  CHECK_FOR_ERRORS(exit_code, "print_bytes");
+  exit_code |= check_for_system_error(printf("\n"), "printf");
   return exit_code;
 }
 
@@ -118,8 +113,9 @@ int main(void) {
   unsigned char data[4] = {0xFF, 0x00, 0xAA, 0x55};
 
   // Print original data
-  exit_code |= printf("Original data:\n");
-  print_bytes(data, sizeof(data));
+  exit_code |= check_for_system_error(printf("Original data:\n"), "printf");
+  exit_code |=
+      check_for_system_error(print_bytes(data, sizeof(data)), "print_bytes");
 
   // Seed random number generator
   srand((uint32_t)time(NULL));
@@ -128,10 +124,9 @@ int main(void) {
   exit_code |= cosmic_monkey(data, sizeof(data));
 
   // Print mutated data
-  exit_code |= printf("Mutated data:\n");
-  exit_code |= print_bytes(data, sizeof(data));
-
-  CHECK_FOR_ERRORS(exit_code, "main");
+  exit_code |= check_for_system_error(printf("Mutated data:\n"), "printf");
+  exit_code |=
+      check_for_system_error(print_bytes(data, sizeof(data)), "print_bytes");
 
   return exit_code;
 }
