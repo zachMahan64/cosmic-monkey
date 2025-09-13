@@ -36,10 +36,12 @@
  */
 
 int32_t cosmic_monkey(void *data, size_t size) {
-    // TODO :
-    //  Implement the cosmic_monkey function, which should flip random bits in
-    //  the input data block. Feel free to use the internet(and ChatGPT) to
-    //  learn about the necessary operations.
+  // TODO :
+  //  Implement the cosmic_monkey function, which should flip random bits in
+  //  the input data block. Feel free to use the internet(and ChatGPT) to
+  //  learn about the necessary operations.
+  size_t byte_to_flip = (rand() % size) - 1;
+  // TODO finish
 }
 
 /**
@@ -58,10 +60,10 @@ int32_t cosmic_monkey(void *data, size_t size) {
  */
 
 int32_t print_bytes(void *data, size_t size) {
-    // TODO:
-    //  Implement the print_bytes function to visualize the data in
-    //  hexadecimal format before and after the mutation.
-    // HINT: run `man 3 printf` in the terminal
+  // TODO:
+  //  Implement the print_bytes function to visualize the data in
+  //  hexadecimal format before and after the mutation.
+  // HINT: run `man 3 printf` in the terminal
 }
 
 /**
@@ -80,22 +82,22 @@ int32_t print_bytes(void *data, size_t size) {
  * discouraged in PVDXos
  */
 int main(void) {
-    // Example data for testing the Cosmic Monkey
-    unsigned char data[4] = {0xFF, 0x00, 0xAA, 0x55};
+  // Example data for testing the Cosmic Monkey
+  unsigned char data[4] = {0xFF, 0x00, 0xAA, 0x55};
 
-    // Print original data
-    printf("Original data:\n");
-    print_bytes(data, sizeof(data));
+  // Print original data
+  printf("Original data:\n");
+  print_bytes(data, sizeof(data));
 
-    // Seed random number generator
-    srand((uint32_t)time(NULL));
+  // Seed random number generator
+  srand((uint32_t)time(NULL));
 
-    // Run the Cosmic Monkey to flip random bits
-    cosmic_monkey(data, sizeof(data));
+  // Run the Cosmic Monkey to flip random bits
+  cosmic_monkey(data, sizeof(data));
 
-    // Print mutated data
-    printf("Mutated data:\n");
-    print_bytes(data, sizeof(data));
+  // Print mutated data
+  printf("Mutated data:\n");
+  print_bytes(data, sizeof(data));
 
-    return 0;
+  return 0;
 }
