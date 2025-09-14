@@ -58,6 +58,10 @@ int32_t cosmic_monkey(void *data, size_t size) {
   size_t bit_to_flip = rand() % 8;
   uint8_t mask = 0x01 << bit_to_flip;
   ((uint8_t *)data)[byte_to_select] = ((uint8_t *)data)[byte_to_select] ^ mask;
+#ifdef DEBUG
+  printf("Flipped bit %d of byte %d.\n", bit_to_flip, byte_to_select);
+#endif /* ifdef DEBUG                                                          \
+        */
   return 0;
 }
 
