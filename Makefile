@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -WPedantic
+CFLAGS = -Wall -Wextra -Wpedantic
 
 normal: release
 
